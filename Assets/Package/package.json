@@ -1,8 +1,8 @@
 {
-    "name": "com.github.enue.tskt_mahjong",
-    "displayName": "TSKT Mahjong",
-    "version": "0.14.15",
-    "unity": "2023.2",
+    "name": "com.github.makisin.three_mahjong",
+    "displayName": "Three Mahjong",
+    "version": "0.1.0",
+    "unity": "6000.0",
     "description": "",
     "keywords": [],
     "category": "",
