@@ -4,13 +4,12 @@ UPM Package
 
 add package from git url
 
-+ `https://github.com/enue/Unity_TSKT_Container.git?path=Assets/Package`
 + `https://github.com/enue/Unity_TSKT_Math.git?path=Assets/Package`
-+ `https://github.com/enue/TSKT_Mahjong.git?path=Assets/Package`
++ `https://github.com/makisin/Three_Mahjong.git?path=Assets/Package`
 
 # 何をするライブラリなのか
 
-　麻雀のルール部分を実装したライブラリです。
+　3人麻雀のルール部分を実装したライブラリです。
 
 　卓上にある牌を管理して、鳴いたりロンしたりといったAPIを提供します。
 
@@ -25,21 +24,21 @@ add package from git url
 　`Game`を`Create`してルールを定める。
 
 ```cs
-var afterDraw = Game.Create((PlayerIndex)Random.Range(0, 4),
+var afterDraw = Game.Create((PlayerIndex)Random.Range(0, 3),
     new RuleSetting()
     {
         end = new Mahjongs.Rules.EndRule()
         {
-            extraRoundScoreThreshold = 30000,
+            extraRoundScoreThreshold = 40000,
             lengthType = Mahjongs.Rules.LengthType.東風戦,
             suddenDeathInExtraRound = true,
         },
         payment = new Mahjongs.Rules.PaymentRule()
         {
-            返し = 30000,
-            ウマ = new[] { 20, 10, -10, -20 },
+            返し = 40000,
+            ウマ = new[] { 20, 0, -20 },
         },
-        initialScore = 25000,
+        initialScore = 35000,
         redTile = Mahjongs.Rules.RedTile.赤ドラ3});
 ```
 
