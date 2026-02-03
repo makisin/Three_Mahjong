@@ -16,6 +16,7 @@ namespace TSKT.Mahjongs.Rounds
         /// </summary>
         readonly public List<Tile> discardPile = new List<Tile>();
         readonly public List<Tile> discardedTiles = new List<Tile>();
+        public readonly List<Tile> nukiTiles = new List<Tile>();
         readonly public TileType wind;
         public int? RiichiIndexInDiscardPile { get; private set; }
         public int? RiichiIndexInTotalDiscardTiles { get; private set; }
@@ -49,6 +50,7 @@ namespace TSKT.Mahjongs.Rounds
         }
 
         public bool IsDealer => round.dealer == index;
+        public int NukiDoraCount => nukiTiles.Count;
 
         public int Score
         {
@@ -70,6 +72,7 @@ namespace TSKT.Mahjongs.Rounds
 
             discardedTiles = source.discardedTiles.Select(_ => round.wallTile.allTiles[_]).ToList();
             discardPile = source.discardPile.Select(_ => round.wallTile.allTiles[_]).ToList();
+            nukiTiles = source.nukiTiles.Select(_ => round.wallTile.allTiles[_]).ToList();
             DoubleRiichi = source.doubleRiichi;
             hand = source.hand.Deserialize(this);
             index = source.index;
@@ -240,7 +243,7 @@ namespace TSKT.Mahjongs.Rounds
             var meld = new Meld(
                 (left, index),
                 (right, index),
-                (tileFromOtherPlayer, (PlayerIndex)((int)(index + 3) % 4)));
+                (tileFromOtherPlayer, (PlayerIndex)((int)(index + 2) % Game.PlayerCount)));
             return hand.tiles
                 .Where(_ => _ != left && _ != right)
                 .Any(_ => !meld.Is喰い替え(_));

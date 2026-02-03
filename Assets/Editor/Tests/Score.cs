@@ -62,6 +62,7 @@ namespace TSKT.Tests.Mahjongs
                         doraTiles: new TileType[0],
                         uraDoraTiles: new TileType[0],
                         槍槓: false,
+                        nukiDoraCount: 0,
                         handCap: round.game.rule.handCap);
                     var player = round.players[(int)round.dealer + 1];
                     var r = CompletedHand.Execute((player, completed));
@@ -121,6 +122,7 @@ namespace TSKT.Tests.Mahjongs
                 doraTiles: new TileType[0],
                 uraDoraTiles: new TileType[0],
                 槍槓: false,
+                nukiDoraCount: 0,
                 handCap: round.game.rule.handCap);
 
             var player = round.Dealer;
@@ -196,6 +198,7 @@ namespace TSKT.Tests.Mahjongs
                 doraTiles: new TileType[0],
                 uraDoraTiles: new TileType[0],
                 槍槓: false,
+                nukiDoraCount: 0,
                 handCap: round.game.rule.handCap);
 
             var player = round.players[1];

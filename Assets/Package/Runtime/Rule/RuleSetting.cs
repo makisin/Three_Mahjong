@@ -12,7 +12,7 @@ namespace TSKT.Mahjongs
         public PaymentRule payment = new();
         public EndRule end = new();
 
-        public int initialScore = 25000;
+        public int initialScore = 35000;
         public RedTile redTile = RedTile.赤ドラ3;
         public TripleRon tripleRon = TripleRon.有効;
         public HandCap handCap = HandCap.トリプル役満;

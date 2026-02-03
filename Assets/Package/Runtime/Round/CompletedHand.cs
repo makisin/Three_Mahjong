@@ -25,9 +25,10 @@ namespace TSKT.Mahjongs.Rounds
         readonly TileType roundWind;
         public readonly Dictionary<役, int> Yakus;
         public readonly Dictionary<役, int> 役満;
+        public readonly int nukiDoraCount;
 
         public readonly bool 役無し => Yakus.Count == 0 && 役満.Count == 0;
-        public readonly int Han => Yakus.Values.Sum() + Dora + UraDora + RedTile;
+        public readonly int Han => Yakus.Values.Sum() + Dora + UraDora + RedTile + NukiDora;
         public readonly bool 面前;
         public readonly bool 自摸 => ronTarget == null;
         public readonly TileType[] doraTiles;
@@ -48,7 +49,8 @@ namespace TSKT.Mahjongs.Rounds
             bool 人和,
             bool 槍槓,
             TileType[] doraTiles,
-            TileType[] uraDoraTiles)
+            TileType[] uraDoraTiles,
+            int nukiDoraCount)
         {
             this.structure = structure;
             this.newTileInHand = newTileInHand;
@@ -57,6 +59,7 @@ namespace TSKT.Mahjongs.Rounds
             this.ronTarget = ronTarget;
             Yakus = new Dictionary<役, int>();
             役満 = new Dictionary<役, int>();
+            this.nukiDoraCount = nukiDoraCount;
             面前 = structure.melds.Length == 0 || structure.melds.All(_ => _.暗槓);
             this.doraTiles = doraTiles ?? System.Array.Empty<TileType>();
             this.uraDoraTiles = (riichi ? uraDoraTiles : null) ?? System.Array.Empty<TileType>();
@@ -525,6 +528,8 @@ namespace TSKT.Mahjongs.Rounds
                 return uraDoraTiles.Sum(_ => allUsedTiles.Count(x => x == _));
             }
         }
+
+        readonly public int NukiDora => nukiDoraCount;
 
         readonly public (ScoreType? type, int score) 基本点(Rules.HandCap handCap)
         {
@@ -1335,7 +1340,7 @@ namespace TSKT.Mahjongs.Rounds
             var round = completedHands[0].player.round;
             var game = round.game;
 
-            if (completedHands.Length == 3
+            if (completedHands.Length == round.players.Length - 1
                 && game.rule.tripleRon == Rules.TripleRon.流局)
             {
                 var playerResults = new Dictionary<Player, CompletedResult>();

@@ -20,6 +20,7 @@ namespace TSKT.Mahjongs.Rounds
         public readonly int dora;
         public readonly int uraDora;
         public readonly int redTile;
+        public readonly int nukiDora;
 
         public CompletedResult(CompletedHand source, Player player)
         {
@@ -28,6 +29,7 @@ namespace TSKT.Mahjongs.Rounds
             dora = source.Dora;
             uraDora = source.UraDora;
             redTile = source.RedTile;
+            nukiDora = source.NukiDora;
             if (source.役満.Count > 0)
             {
                 display役s = source.役満.ToDictionary(_ => _.Key, _ => 0);
@@ -64,7 +66,7 @@ namespace TSKT.Mahjongs.Rounds
                             scoreDiffs[it] = -dealerTsumoPenalty.Value;
                         }
                     }
-                    scoreDiffs[player] = dealerTsumoPenalty.Value * 3;
+                    scoreDiffs[player] = dealerTsumoPenalty.Value * (player.round.players.Length - 1);
                 }
                 else
                 {
@@ -85,7 +87,7 @@ namespace TSKT.Mahjongs.Rounds
                             }
                         }
                     }
-                    scoreDiffs[player] = tsumoPenalty.Value.dealer + tsumoPenalty.Value.player * 2;
+                    scoreDiffs[player] = tsumoPenalty.Value.dealer + tsumoPenalty.Value.player * (player.round.players.Length - 2);
                 }
             }
             else

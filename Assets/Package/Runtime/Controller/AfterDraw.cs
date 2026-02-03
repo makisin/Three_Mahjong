@@ -189,6 +189,23 @@ namespace TSKT.Mahjongs
             return commands.Length > 0;
         }
 
+        bool CanNuki(out Commands.Nuki[] commands)
+        {
+            if (Round.wallTile.tiles.Count == 0)
+            {
+                commands = System.Array.Empty<Commands.Nuki>();
+                return false;
+            }
+            var tiles = DrawPlayer.hand.tiles.Where(_ => _.type == TileType.北).ToArray();
+            if (tiles.Length == 0)
+            {
+                commands = System.Array.Empty<Commands.Nuki>();
+                return false;
+            }
+            commands = tiles.Select(_ => new Commands.Nuki(this, _)).ToArray();
+            return true;
+        }
+
         bool CanDiscard(Tile tile, out Commands.Discard command)
         {
             if (tile == newTileInHand)
@@ -384,6 +401,7 @@ namespace TSKT.Mahjongs
                 CanDiscard(out var discards);
                 CanRiichi(out var riichies);
                 CanOpenRiichi(out var openRiichies);
+                CanNuki(out var nukis);
                 Commands.Tsumo? tsumo;
                 if (CanTsumo(out var t))
                 {
@@ -403,7 +421,7 @@ namespace TSKT.Mahjongs
                     nineTiles = null;
                 }
                 return new DiscardingCommandSet(addedOpenQuads: declareAddedOpenQuads, closedQuads: declareCloseQuads,
-                        discards: discards, riichies: riichies, openRiichies: openRiichies,
+                        discards: discards, riichies: riichies, openRiichies: openRiichies, nukis: nukis,
                         tsumo: tsumo, nineTiles: nineTiles);
             }
             else
@@ -438,6 +456,10 @@ namespace TSKT.Mahjongs
                 if (CanOpenRiichi(out var openRiichies))
                 {
                     result.AddRange(openRiichies.Cast<ICommand>());
+                }
+                if (CanNuki(out var nukis))
+                {
+                    result.AddRange(nukis.Cast<ICommand>());
                 }
                 if (CanTsumo(out var tsumo))
                 {

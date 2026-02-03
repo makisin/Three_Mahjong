@@ -46,6 +46,7 @@ namespace TSKT.Mahjongs.Hands
                 doraTiles: player.round.deadWallTile.DoraTiles,
                 uraDoraTiles: player.round.deadWallTile.UraDoraTiles,
                 槍槓: 槍槓,
+                nukiDoraCount: player.NukiDoraCount,
                 handCap: player.round.game.rule.handCap);
         }
 
@@ -64,6 +65,7 @@ namespace TSKT.Mahjongs.Hands
             TileType[] doraTiles,
             TileType[] uraDoraTiles,
             bool 槍槓,
+            int nukiDoraCount,
             Rules.HandCap handCap)
         {
             var result = (score: int.MinValue, completed: default(CompletedHand));
@@ -84,7 +86,8 @@ namespace TSKT.Mahjongs.Hands
                     人和: 人和,
                     槍槓: 槍槓,
                     doraTiles: doraTiles,
-                    uraDoraTiles: uraDoraTiles);
+                    uraDoraTiles: uraDoraTiles,
+                    nukiDoraCount: nukiDoraCount);
                 if (result.score < item.基本点(handCap).score)
                 {
                     result = (item.基本点(handCap).score, item);

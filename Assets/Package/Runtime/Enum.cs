@@ -86,7 +86,6 @@ namespace TSKT.Mahjongs
     {
         自家,
         下家,
-        対面,
         上家,
     }
 
@@ -95,14 +94,13 @@ namespace TSKT.Mahjongs
         Index0 = 0,
         Index1,
         Index2,
-        Index3,
     }
 
     public static class RelativePlayerUtil
     {
         static public RelativePlayer GetByPlayerIndex(PlayerIndex fromIndex, PlayerIndex targetIndex)
         {
-            var diff = (targetIndex - fromIndex + 4) % 4;
+            var diff = (targetIndex - fromIndex + 3) % 3;
             if (diff == 0)
             {
                 return RelativePlayer.自家;
@@ -112,10 +110,6 @@ namespace TSKT.Mahjongs
                 return RelativePlayer.下家;
             }
             if (diff == 2)
-            {
-                return RelativePlayer.対面;
-            }
-            if (diff == 3)
             {
                 return RelativePlayer.上家;
             }

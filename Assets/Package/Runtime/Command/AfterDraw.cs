@@ -158,6 +158,27 @@ namespace TSKT.Mahjongs.Commands
         }
     }
 
+    public readonly struct Nuki : ICommand<AfterDraw>
+    {
+        public readonly AfterDraw Controller { get; }
+        public static CommandPriority GetPriority => CommandPriority.Lowest;
+        public readonly CommandPriority Priority => GetPriority;
+        public readonly Player Executor => Controller.DrawPlayer;
+        public readonly Tile tile;
+
+        public Nuki(AfterDraw afterDraw, Tile tile)
+        {
+            Controller = afterDraw;
+            this.tile = tile;
+        }
+
+        public readonly CommandResult Execute()
+        {
+            return new CommandResult(
+                Controller.Round.ExecuteNorthNuki(Controller.DrawPlayer, tile, Controller.openDoraAfterDiscard));
+        }
+    }
+
     /// <summary>
     /// 暗槓
     /// </summary>
@@ -235,5 +256,4 @@ namespace TSKT.Mahjongs.Commands
         }
     }
 }
-
 

@@ -6,7 +6,8 @@ namespace TSKT.Mahjongs
 {
     public class Game
     {
-        readonly TileType[] winds = new[] { TileType.東, TileType.南, TileType.西, TileType.北 };
+        public const int PlayerCount = 3;
+        readonly TileType[] winds = new[] { TileType.東, TileType.南, TileType.西 };
         public int RoundWindCount { get; private set; } = 0;
         public TileType Wind => winds[RoundWindCount % winds.Length];
         public int DisplayRoundCount { get; private set; } = 1;
@@ -18,7 +19,7 @@ namespace TSKT.Mahjongs
         public readonly RuleSetting rule;
         public readonly List<ScriptableRules.ICompletedResultModifier> completedHandModifiers = new();
 
-        public PlayerIndex Dealer => (PlayerIndex)(((int)firstDealer + DisplayRoundCount - 1) % 4);
+        public PlayerIndex Dealer => (PlayerIndex)(((int)firstDealer + DisplayRoundCount - 1) % PlayerCount);
 
         static public AfterDraw Create(PlayerIndex firstDealer, RuleSetting rule)
         {
@@ -30,7 +31,7 @@ namespace TSKT.Mahjongs
         {
             this.rule = rule;
             this.firstDealer = firstDealer;
-            seats = new Seat[4];
+            seats = new Seat[PlayerCount];
             for (int i = 0; i < seats.Length; ++i)
             {
                 seats[i] = new Seat(rule.initialScore);
@@ -94,7 +95,7 @@ namespace TSKT.Mahjongs
         {
             連荘 = 0;
             本場 = 0;
-            if (DisplayRoundCount == 4)
+            if (DisplayRoundCount == PlayerCount)
             {
                 ++RoundWindCount;
                 DisplayRoundCount = 1;
@@ -177,9 +178,9 @@ namespace TSKT.Mahjongs
             {
                 switch (rule.end.lengthType)
                 {
-                    case Rules.LengthType.東風戦: return (RoundWindCount == 0) && (DisplayRoundCount == 4);
-                    case Rules.LengthType.半荘戦: return (RoundWindCount == 1) && (DisplayRoundCount == 4);
-                    case Rules.LengthType.一荘戦: return (RoundWindCount == 3) && (DisplayRoundCount == 4);
+                    case Rules.LengthType.東風戦: return (RoundWindCount == 0) && (DisplayRoundCount == PlayerCount);
+                    case Rules.LengthType.半荘戦: return (RoundWindCount == 1) && (DisplayRoundCount == PlayerCount);
+                    case Rules.LengthType.一荘戦: return (RoundWindCount == 2) && (DisplayRoundCount == PlayerCount);
                     default:
                         throw new System.ArgumentException(rule.end.lengthType.ToString());
                 }
@@ -194,7 +195,7 @@ namespace TSKT.Mahjongs
                 {
                     case Rules.LengthType.東風戦: return RoundWindCount > 0;
                     case Rules.LengthType.半荘戦: return RoundWindCount > 1;
-                    case Rules.LengthType.一荘戦: return RoundWindCount > 3;
+                    case Rules.LengthType.一荘戦: return RoundWindCount > 2;
                     default:
                         throw new System.ArgumentException(rule.end.lengthType.ToString());
                 }
@@ -202,4 +203,3 @@ namespace TSKT.Mahjongs
         }
     }
 }
-

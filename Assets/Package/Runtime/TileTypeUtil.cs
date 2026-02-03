@@ -15,6 +15,14 @@ namespace TSKT.Mahjongs
             var result = new List<TileType>();
             foreach (TileType it in System.Enum.GetValues(typeof(TileType)))
             {
+                if (it.IsMan())
+                {
+                    var number = it.Number();
+                    if (number >= 2 && number <= 8)
+                    {
+                        continue;
+                    }
+                }
                 if (it.季節牌())
                 {
                     if (季節牌)
@@ -45,6 +53,17 @@ namespace TSKT.Mahjongs
         {
             if (indicatorTile.IsSuited())
             {
+                if (indicatorTile.IsMan())
+                {
+                    if (indicatorTile.Number() == 1)
+                    {
+                        return TileType.M9;
+                    }
+                    if (indicatorTile.Number() == 9)
+                    {
+                        return TileType.M1;
+                    }
+                }
                 var number = indicatorTile.Number() % 9 + 1;
                 return Get(indicatorTile.Suit(), number);
             }

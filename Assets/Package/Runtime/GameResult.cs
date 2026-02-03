@@ -19,9 +19,8 @@ namespace TSKT.Mahjongs
             // 同じ点数だった場合、席順で順位を決める
             var orderedPositionFromFirstOrder = new Dictionary<RelativePlayer, int>()
             {
-                { RelativePlayer.自家, 3 },
-                { RelativePlayer.下家, 2 },
-                { RelativePlayer.対面, 1 },
+                { RelativePlayer.自家, 2 },
+                { RelativePlayer.下家, 1 },
                 { RelativePlayer.上家, 0 },
             };
 

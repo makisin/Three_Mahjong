@@ -186,6 +186,7 @@ namespace TSKT.Mahjongs.Serializables
         public Hand hand;
         public int[] discardPile;
         public int[] discardedTiles;
+        public int[] nukiTiles;
         public TileType wind;
         public int riichiIndexInDiscardPile;
         public int riichiIndexInTotalDiscardTiles;
@@ -200,6 +201,7 @@ namespace TSKT.Mahjongs.Serializables
             index = source.index;
             discardedTiles = source.discardedTiles.Select(_ => _.index).ToArray();
             discardPile = source.discardPile.Select(_ => _.index).ToArray();
+            nukiTiles = source.nukiTiles.Select(_ => _.index).ToArray();
             doubleRiichi = source.DoubleRiichi;
             hand = source.hand.ToSerializable();
             openRiichi = source.OpenRiichi;

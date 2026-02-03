@@ -15,7 +15,7 @@ namespace TSKT.Mahjongs
         /// 王牌
         /// </summary>
         public readonly DeadWallTile deadWallTile = new DeadWallTile();
-        public readonly Player[] players = new Player[4];
+        public readonly Player[] players = new Player[Game.PlayerCount];
         /// <summary>
         /// 場風
         /// </summary>
@@ -36,7 +36,7 @@ namespace TSKT.Mahjongs
             this.dealer = dealer;
             wallTile = new WallTile(game.rule.redTile);
 
-            var winds = new TileType[] { TileType.東, TileType.南, TileType.西, TileType.北 };
+            var winds = new TileType[] { TileType.東, TileType.南, TileType.西 };
 
             for (int i = 0; i < players.Length; ++i)
             {
@@ -122,7 +122,7 @@ namespace TSKT.Mahjongs
             }
         }
 
-        Tile DrawFromDeadWallTile(Player player)
+        internal Tile DrawFromDeadWallTile(Player player)
         {
             var t = deadWallTile.Draw();
             player.hand.tiles.Add(t);
@@ -134,6 +134,16 @@ namespace TSKT.Mahjongs
                 deadWallTile.tiles.Add(wall);
             }
             return t;
+        }
+
+        public AfterDraw ExecuteNorthNuki(Player player, Tile northTile, bool openDoraAfterDiscard)
+        {
+            player.hand.tiles.Remove(northTile);
+            player.nukiTiles.Add(northTile);
+
+            var t = DrawFromDeadWallTile(player);
+            player.OnTurnStart();
+            return new AfterDraw(player, t, 嶺上: false, openDoraAfterDiscard: openDoraAfterDiscard);
         }
 
         /// <summary>
@@ -256,6 +266,7 @@ namespace TSKT.Mahjongs
                 result -= player.hand.melds
                     .SelectMany(_ => _.tileFroms)
                     .Count(_ => _.tile.type == target);
+                result -= player.nukiTiles.Count(_ => _.type == target);
                 result -= player.discardPile.Count(_ => _.type == target);
             }
             return result;
@@ -282,6 +293,10 @@ namespace TSKT.Mahjongs
                     {
                         --result[tile.type];
                     }
+                }
+                foreach (var tile in player.nukiTiles)
+                {
+                    --result[tile.type];
                 }
                 // 河
                 foreach (var tile in player.discardPile)

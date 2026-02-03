@@ -234,7 +234,7 @@ namespace TSKT.Mahjongs
                 }
                 var getterCount = states.Count(_ => _.Value == ExhausiveDrawType.テンパイ);
 
-                if (getterCount > 0 && getterCount < 4)
+                if (getterCount > 0 && getterCount < Round.players.Length)
                 {
                     foreach (var it in states)
                     {
@@ -244,7 +244,7 @@ namespace TSKT.Mahjongs
                         }
                         else
                         {
-                            scoreDiffs[it.Key] -= 3000 / (4 - getterCount);
+                            scoreDiffs[it.Key] -= 3000 / (Round.players.Length - getterCount);
                         }
                     }
                 }

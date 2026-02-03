@@ -37,6 +37,8 @@ namespace TSKT.Mahjongs
         public readonly Commands.Discard[] Riichies => riichies ?? System.Array.Empty<Commands.Discard>();
         readonly Commands.Discard[]? openRiichies;
         public readonly Commands.Discard[] OpenRiichies => openRiichies ?? System.Array.Empty<Commands.Discard>();
+        readonly Commands.Nuki[]? nukis;
+        public readonly Commands.Nuki[] Nukis => nukis ?? System.Array.Empty<Commands.Nuki>();
         public readonly Commands.Tsumo? Tsumo { get; }
         public readonly Commands.九種九牌? NineTiles { get; }
 
@@ -46,6 +48,7 @@ namespace TSKT.Mahjongs
             Commands.Discard[]? discards,
             Commands.Discard[]? riichies,
             Commands.Discard[]? openRiichies,
+            Commands.Nuki[]? nukis,
             Commands.Tsumo? tsumo,
             Commands.九種九牌? nineTiles)
         {
@@ -54,6 +57,7 @@ namespace TSKT.Mahjongs
             this.discards = discards;
             this.riichies = riichies;
             this.openRiichies = openRiichies;
+            this.nukis = nukis;
             Tsumo = tsumo;
             NineTiles = nineTiles;
         }
@@ -67,6 +71,7 @@ namespace TSKT.Mahjongs
                     && Discards.Length == 0
                     && Riichies.Length == 0
                     && OpenRiichies.Length == 0
+                    && Nukis.Length == 0
                     && !Tsumo.HasValue
                     && !NineTiles.HasValue;
             }
@@ -78,6 +83,7 @@ namespace TSKT.Mahjongs
                 return Discards.Length == 1
                     && AddedOpenQuads.Length == 0
                     && ClosedQuads.Length == 0
+                    && Nukis.Length == 0
                     && !NineTiles.HasValue
                     && !Tsumo.HasValue
                     && Riichies.Length == 0
@@ -119,6 +125,13 @@ namespace TSKT.Mahjongs
                     }
                 }
                 foreach (var it in OpenRiichies)
+                {
+                    if (result < it.Priority)
+                    {
+                        result = it.Priority;
+                    }
+                }
+                foreach (var it in Nukis)
                 {
                     if (result < it.Priority)
                     {

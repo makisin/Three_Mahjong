@@ -93,11 +93,12 @@ namespace TSKT.Mahjongs
     public class DeadWallTile
     {
         public const int Count = 14;
+        const int MaxReplacementTileCount = 8;
         readonly public List<Tile> tiles = new List<Tile>();
         readonly public List<Tile> doraIndicatorTiles = new List<Tile>();
         readonly public List<Tile> uraDoraIndicatorTiles = new List<Tile>();
         public int DrawnCount { get; private set; }
-        public int RemainingReplacementTileCount => 4 - DrawnCount;
+        public int RemainingReplacementTileCount => Mathf.Max(0, MaxReplacementTileCount - DrawnCount);
 
         public DeadWallTile()
         {
