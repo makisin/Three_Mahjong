@@ -72,7 +72,6 @@ namespace TSKT.Mahjongs
                     wallTile.tiles.RemoveAt(0);
                     player.hand.tiles.Add(t);
                 }
-                player.hand.Sort();
             }
 
             for (int i = 0; i < DeadWallTile.Count; ++i)
