@@ -35,6 +35,19 @@ namespace TSKT.Tests.Mahjongs
             var json1_1 = session1_2.ToJson();
             Assert.AreEqual(json1_0, json1_1);
         }
+
+        [Test]
+        public void CreateWithSeed()
+        {
+            const uint seed = 123456789;
+            var controller0 = Game.Create(0, new RuleSetting(), seed);
+            var controller1 = Game.Create(0, new RuleSetting(), seed);
+
+            var json0 = controller0.SerializeSession().ToJson();
+            var json1 = controller1.SerializeSession().ToJson();
+            Assert.AreEqual(json0, json1);
+        }
+
         [Test]
         [TestCase(true, OpenRiichi.あり, HandCap.トリプル役満, RedTile.赤ドラ4, 喰い替え.なし, 四家立直.流局, TripleRon.有効, 明槓槓ドラ.打牌後)]
         [TestCase(false, OpenRiichi.あり, HandCap.トリプル役満, RedTile.赤ドラ4, 喰い替え.なし, 四家立直.流局, TripleRon.有効, 明槓槓ドラ.打牌後)]

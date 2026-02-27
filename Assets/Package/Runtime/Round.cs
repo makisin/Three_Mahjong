@@ -30,11 +30,19 @@ namespace TSKT.Mahjongs
 
         public Round(Game game, TileType prevailingWind, PlayerIndex dealer,
             params TileType[]?[]? initialPlayerTilesByCheat)
+            : this(game, prevailingWind, dealer, null, initialPlayerTilesByCheat)
+        {
+        }
+
+        public Round(Game game, TileType prevailingWind, PlayerIndex dealer, uint? wallSeed,
+            params TileType[]?[]? initialPlayerTilesByCheat)
         {
             this.game = game;
             roundWind = prevailingWind;
             this.dealer = dealer;
-            wallTile = new WallTile(game.rule.redTile);
+            wallTile = wallSeed.HasValue
+                ? new WallTile(game.rule.redTile, wallSeed.Value)
+                : new WallTile(game.rule.redTile);
 
             var winds = new TileType[] { TileType.東, TileType.南, TileType.西 };
 

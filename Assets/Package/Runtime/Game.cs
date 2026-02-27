@@ -27,6 +27,12 @@ namespace TSKT.Mahjongs
             return game.StartRound();
         }
 
+        static public AfterDraw Create(PlayerIndex firstDealer, RuleSetting rule, uint seed)
+        {
+            var game = new Game(firstDealer, rule);
+            return game.StartRound(seed);
+        }
+
         Game(PlayerIndex firstDealer, RuleSetting rule)
         {
             this.rule = rule;
@@ -62,6 +68,12 @@ namespace TSKT.Mahjongs
         public AfterDraw StartRound(params TileType[]?[]? initialPlayerTilesByCheat)
         {
             var round = new Round(this, Wind, Dealer, initialPlayerTilesByCheat);
+            return round.Start();
+        }
+
+        public AfterDraw StartRound(uint seed, params TileType[]?[]? initialPlayerTilesByCheat)
+        {
+            var round = new Round(this, Wind, Dealer, seed, initialPlayerTilesByCheat);
             return round.Start();
         }
 

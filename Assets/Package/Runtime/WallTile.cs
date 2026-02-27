@@ -13,6 +13,16 @@ namespace TSKT.Mahjongs
         readonly public Tile[] allTiles;
 
         public WallTile(Rules.RedTile redTile)
+            : this(redTile, RandomProvider.GetNewRandom())
+        {
+        }
+
+        public WallTile(Rules.RedTile redTile, uint seed)
+            : this(redTile, new RandomProvider.Core(unchecked((int)NormalizeSeed(seed))))
+        {
+        }
+
+        WallTile(Rules.RedTile redTile, RandomProvider.Core random)
         {
             int m5rCount;
             int p5rCount;
@@ -64,9 +74,14 @@ namespace TSKT.Mahjongs
             allTiles = sortedTiles.ToArray();
             tiles = sortedTiles.ToList();
 
-            var random = RandomProvider.GetNewRandom();
             randomSeed = random.seed;
             random.Shuffle(ref tiles);
+        }
+
+        static uint NormalizeSeed(uint seed)
+        {
+            // Unity.Mathematics.Random は 0 seed を許容しない。
+            return seed == 0 ? 1u : seed;
         }
 
         WallTile(in Serializables.WallTile source)
