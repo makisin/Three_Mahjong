@@ -129,6 +129,8 @@ namespace TSKT.Mahjongs.Serializables
         public int riichiScore;
         public int 本場;
         public int 連荘;
+        public bool useDeterministicRoundSeeds;
+        public uint nextRoundSeed;
         public PlayerIndex firstDealer;
         public int[] scores;
         public RuleSetting rule;
@@ -143,6 +145,8 @@ namespace TSKT.Mahjongs.Serializables
             scores = source.seats.Select(_ => _.score).ToArray();
             本場 = source.本場;
             連荘 = source.連荘;
+            useDeterministicRoundSeeds = source.UseDeterministicRoundSeeds;
+            nextRoundSeed = source.NextRoundSeed;
         }
 
         public readonly Mahjongs.Game Deserialize()

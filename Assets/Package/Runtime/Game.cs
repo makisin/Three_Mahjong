@@ -18,8 +18,12 @@ namespace TSKT.Mahjongs
         public readonly Seat[] seats;
         public readonly RuleSetting rule;
         public readonly List<ScriptableRules.ICompletedResultModifier> completedHandModifiers = new();
+        bool useDeterministicRoundSeeds;
+        uint nextRoundSeed;
 
         public PlayerIndex Dealer => (PlayerIndex)(((int)firstDealer + DisplayRoundCount - 1) % PlayerCount);
+        internal bool UseDeterministicRoundSeeds => useDeterministicRoundSeeds;
+        internal uint NextRoundSeed => nextRoundSeed;
 
         static public AfterDraw Create(PlayerIndex firstDealer, RuleSetting rule)
         {
@@ -30,7 +34,8 @@ namespace TSKT.Mahjongs
         static public AfterDraw Create(PlayerIndex firstDealer, RuleSetting rule, uint seed)
         {
             var game = new Game(firstDealer, rule);
-            return game.StartRound(seed);
+            game.EnableDeterministicRoundSeeds(seed);
+            return game.StartRound();
         }
 
         Game(PlayerIndex firstDealer, RuleSetting rule)
@@ -56,6 +61,8 @@ namespace TSKT.Mahjongs
             }
             result.本場 = source.本場;
             result.連荘 = source.連荘;
+            result.useDeterministicRoundSeeds = source.useDeterministicRoundSeeds;
+            result.nextRoundSeed = source.nextRoundSeed;
 
             return result;
         }
@@ -67,14 +74,40 @@ namespace TSKT.Mahjongs
 
         public AfterDraw StartRound(params TileType[]?[]? initialPlayerTilesByCheat)
         {
-            var round = new Round(this, Wind, Dealer, initialPlayerTilesByCheat);
+            var round = useDeterministicRoundSeeds
+                ? new Round(this, Wind, Dealer, ConsumeRoundSeed(), initialPlayerTilesByCheat)
+                : new Round(this, Wind, Dealer, initialPlayerTilesByCheat);
             return round.Start();
         }
 
         public AfterDraw StartRound(uint seed, params TileType[]?[]? initialPlayerTilesByCheat)
         {
-            var round = new Round(this, Wind, Dealer, seed, initialPlayerTilesByCheat);
+            EnableDeterministicRoundSeeds(seed);
+            var round = new Round(this, Wind, Dealer, ConsumeRoundSeed(), initialPlayerTilesByCheat);
             return round.Start();
+        }
+
+        void EnableDeterministicRoundSeeds(uint seed)
+        {
+            useDeterministicRoundSeeds = true;
+            nextRoundSeed = NormalizeRoundSeed(seed);
+        }
+
+        uint ConsumeRoundSeed()
+        {
+            var seed = nextRoundSeed;
+            nextRoundSeed = AdvanceRoundSeed(nextRoundSeed);
+            return seed;
+        }
+
+        static uint NormalizeRoundSeed(uint seed)
+        {
+            return seed == 0 ? 1u : seed;
+        }
+
+        static uint AdvanceRoundSeed(uint seed)
+        {
+            return NormalizeRoundSeed(unchecked(seed * 1664525u + 1013904223u));
         }
 
         public AfterDraw? AdvanceRoundBy親上がり(out GameResult? gameResult)

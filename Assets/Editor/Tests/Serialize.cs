@@ -11,6 +11,28 @@ namespace TSKT.Tests.Mahjongs
 {
     public class Serialzie
     {
+        static IController AdvanceToNextRoundByFirstChoices(IController controller)
+        {
+            for (int i = 0; i < 10000; ++i)
+            {
+                var commands = controller.ExecutableCommands;
+                var result = commands.Length > 0
+                    ? controller.ExecuteCommands(out _, commands[0])
+                    : controller.ExecuteCommands(out _);
+
+                Assert.IsNotNull(result.nextController);
+                controller = result.nextController!;
+
+                if (result.roundResult != null)
+                {
+                    return controller;
+                }
+            }
+
+            Assert.Fail("round did not advance");
+            return controller;
+        }
+
         [Test]
         public void ToJson()
         {
@@ -45,6 +67,33 @@ namespace TSKT.Tests.Mahjongs
 
             var json0 = controller0.SerializeSession().ToJson();
             var json1 = controller1.SerializeSession().ToJson();
+            Assert.AreEqual(json0, json1);
+        }
+
+        [Test]
+        public void CreateWithSeed_ReproducesNextRound()
+        {
+            const uint seed = 123456789;
+            var controller0 = AdvanceToNextRoundByFirstChoices(Game.Create(0, new RuleSetting(), seed));
+            var controller1 = AdvanceToNextRoundByFirstChoices(Game.Create(0, new RuleSetting(), seed));
+
+            var json0 = controller0.SerializeSession().ToJson();
+            var json1 = controller1.SerializeSession().ToJson();
+            Assert.AreEqual(json0, json1);
+        }
+
+        [Test]
+        public void CreateWithSeed_SerializedSessionReproducesNextRound()
+        {
+            const uint seed = 123456789;
+            var controller0 = Game.Create(0, new RuleSetting(), seed);
+            var controller1 = TSKT.Mahjongs.Serializables.Session.FromJson(controller0.SerializeSession().ToJson());
+
+            var advancedController0 = AdvanceToNextRoundByFirstChoices(controller0);
+            var advancedController1 = AdvanceToNextRoundByFirstChoices(controller1);
+
+            var json0 = advancedController0.SerializeSession().ToJson();
+            var json1 = advancedController1.SerializeSession().ToJson();
             Assert.AreEqual(json0, json1);
         }
 
