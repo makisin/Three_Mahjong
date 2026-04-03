@@ -135,7 +135,7 @@ namespace TSKT.Tests.Mahjongs
                 CommandResult result;
                 if (commands.Length > 0)
                 {
-                    var command = commands[Random.Range(0, commands.Length)];
+                    var command = commands[UnityEngine.Random.Range(0, commands.Length)];
                     result = controller.ExecuteCommands(out _, command);
                 }
                 else

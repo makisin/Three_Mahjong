@@ -4,7 +4,6 @@ UPM Package
 
 add package from git url
 
-+ `https://github.com/enue/Unity_TSKT_Math.git?path=Assets/Package`
 + `https://github.com/makisin/Three_Mahjong.git?path=Assets/Package`
 
 # 何をするライブラリなのか
@@ -116,4 +115,3 @@ var controller = Serializable.Session.FromJson(jsonString);
 + 八連荘（何も起こりません）
 + 二翻縛り（常に一翻縛り固定）
 + 青天井ルール
-

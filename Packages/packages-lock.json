@@ -1,14 +1,5 @@
 {
   "dependencies": {
-    "com.github.enue.tskt_math": {
-      "version": "https://github.com/enue/Unity_TSKT_Math.git?path=Assets/Package",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {
-        "com.unity.mathematics": "1.1.0"
-      },
-      "hash": "bc4605476e02068e6d17e1c45c16ad6e29cb10a2"
-    },
     "com.unity.ext.nunit": {
       "version": "2.0.5",
       "depth": 1,
@@ -34,8 +25,8 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.mathematics": {
-      "version": "1.3.2",
-      "depth": 1,
+      "version": "1.3.3",
+      "depth": 0,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"

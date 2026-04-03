@@ -6,7 +6,5 @@
     "description": "",
     "keywords": [],
     "category": "",
-    "dependencies": {
-        "com.github.enue.tskt_math": "0.8.2"
-    }
+    "dependencies": {}
 }
