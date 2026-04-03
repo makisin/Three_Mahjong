@@ -1,7 +1,7 @@
 ﻿#nullable enable
 using System.Collections.Generic;
 
-namespace TSKT.Mahjongs
+namespace ThreeMahjong
 {
     public static class RandomUtil
     {

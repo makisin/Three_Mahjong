@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using TSKT.Mahjongs.Rounds;
+using ThreeMahjong.Rounds;
 
-namespace TSKT.Mahjongs
+namespace ThreeMahjong
 {
     public interface ICommand
     {
@@ -103,7 +103,7 @@ namespace TSKT.Mahjongs
         }
     }
 }
-namespace TSKT.Mahjongs.Commands
+namespace ThreeMahjong.Commands
 {
     public enum CommandPriority
     {

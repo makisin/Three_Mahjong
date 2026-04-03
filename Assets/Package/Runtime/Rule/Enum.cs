@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 #nullable enable
 
-namespace TSKT.Mahjongs.Rules
+namespace ThreeMahjong.Rules
 {
     public enum RedTile
     {

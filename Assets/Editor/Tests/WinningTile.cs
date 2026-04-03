@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NUnit.Framework;
-using TSKT.Mahjongs;
+using ThreeMahjong;
 using System.Linq;
 #nullable enable
 
-namespace TSKT.Tests.Mahjongs
+namespace ThreeMahjong.Test
 {
     public class WinningTile
     {

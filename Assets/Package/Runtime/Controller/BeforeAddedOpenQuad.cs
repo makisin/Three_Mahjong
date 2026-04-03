@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using TSKT.Mahjongs.Rounds;
+using ThreeMahjong.Rounds;
 
-namespace TSKT.Mahjongs
+namespace ThreeMahjong
 {
     /// <summary>
     /// 加槓宣言時。槍槓ができる

@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using NUnit.Framework;
-using TSKT.Mahjongs;
-using TSKT.Mahjongs.Rounds;
+using ThreeMahjong;
+using ThreeMahjong.Rounds;
 using System.Linq;
 
-namespace TSKT.Tests.Mahjongs
+namespace ThreeMahjong.Test
 {
     public class Score
     {

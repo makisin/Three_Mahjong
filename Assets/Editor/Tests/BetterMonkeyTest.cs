@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NUnit.Framework;
-using TSKT.Mahjongs;
-using TSKT.Mahjongs.Rules;
+using ThreeMahjong;
+using ThreeMahjong.Rules;
 using System.Linq;
 #nullable enable
 
-namespace TSKT.Tests.Mahjongs
+namespace ThreeMahjong.Test
 {
     public class BetterMonkeyTest
     {
@@ -94,7 +94,7 @@ namespace TSKT.Tests.Mahjongs
                 if (commands.Length > 0)
                 {
                     RandomUtil.Shuffle(ref commands);
-                    var discards = commands.OfType<TSKT.Mahjongs.Commands.Discard>()
+                    var discards = commands.OfType<ThreeMahjong.Commands.Discard>()
                         .OrderBy(_ => _.HandAfterDiscard.Solve().向聴数);
                     if (verbose)
                     {

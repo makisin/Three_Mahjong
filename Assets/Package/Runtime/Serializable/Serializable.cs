@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using TSKT.Mahjongs.Rounds;
+using ThreeMahjong.Rounds;
 
-namespace TSKT.Mahjongs.Serializables
+namespace ThreeMahjong.Serializables
 {
     [System.Serializable]
     public struct Session
@@ -19,7 +19,7 @@ namespace TSKT.Mahjongs.Serializables
         public bool hasBeforeAddedOpenQuad;
         public BeforeAddedOpenQuad beforeAddedOpenQuad;
 
-        public Session(Mahjongs.AfterDiscard source)
+        public Session(ThreeMahjong.AfterDiscard source)
         {
             hasAfterDiscard = true;
             hasAfterDraw = false;
@@ -32,7 +32,7 @@ namespace TSKT.Mahjongs.Serializables
             beforeClosedQuad = default;
         }
 
-        public Session(Mahjongs.AfterDraw source)
+        public Session(ThreeMahjong.AfterDraw source)
         {
             hasAfterDiscard = false;
             hasAfterDraw = true;
@@ -45,7 +45,7 @@ namespace TSKT.Mahjongs.Serializables
             beforeClosedQuad = default;
         }
 
-        public Session(Mahjongs.BeforeAddedOpenQuad source)
+        public Session(ThreeMahjong.BeforeAddedOpenQuad source)
         {
             hasAfterDiscard = false;
             hasAfterDraw = false;
@@ -58,7 +58,7 @@ namespace TSKT.Mahjongs.Serializables
             beforeClosedQuad = default;
         }
 
-        public Session(Mahjongs.BeforeClosedQuad source)
+        public Session(ThreeMahjong.BeforeClosedQuad source)
         {
             hasAfterDiscard = false;
             hasAfterDraw = false;
@@ -109,15 +109,15 @@ namespace TSKT.Mahjongs.Serializables
         public TileType type;
         public bool red;
 
-        public Tile(Mahjongs.Tile source)
+        public Tile(ThreeMahjong.Tile source)
         {
             index = source.index;
             red = source.red;
             type = source.type;
         }
-        readonly public Mahjongs.Tile Deserialzie()
+        readonly public ThreeMahjong.Tile Deserialzie()
         {
-            return Mahjongs.Tile.FromSerializable(this);
+            return ThreeMahjong.Tile.FromSerializable(this);
         }
     }
 
@@ -135,7 +135,7 @@ namespace TSKT.Mahjongs.Serializables
         public int[] scores;
         public RuleSetting rule;
 
-        public Game(Mahjongs.Game source)
+        public Game(ThreeMahjong.Game source)
         {
             displayRoundCount = source.DisplayRoundCount;
             firstDealer = source.firstDealer;
@@ -149,9 +149,9 @@ namespace TSKT.Mahjongs.Serializables
             nextRoundSeed = source.NextRoundSeed;
         }
 
-        public readonly Mahjongs.Game Deserialize()
+        public readonly ThreeMahjong.Game Deserialize()
         {
-            return Mahjongs.Game.FromSerializable(this);
+            return ThreeMahjong.Game.FromSerializable(this);
         }
     }
 
@@ -166,7 +166,7 @@ namespace TSKT.Mahjongs.Serializables
         public PlayerIndex dealer;
         public int[] totalDiscardedTiles;
 
-        public Round(Mahjongs.Round source)
+        public Round(ThreeMahjong.Round source)
         {
             game = source.game.ToSerializable();
             deadWallTile = source.deadWallTile.ToSerializable();
@@ -177,9 +177,9 @@ namespace TSKT.Mahjongs.Serializables
             wallTile = source.wallTile.ToSerializable();
         }
 
-        public readonly Mahjongs.Round Deserialize()
+        public readonly ThreeMahjong.Round Deserialize()
         {
-            return Mahjongs.Round.FromSerializable(this);
+            return ThreeMahjong.Round.FromSerializable(this);
         }
     }
 
@@ -216,7 +216,7 @@ namespace TSKT.Mahjongs.Serializables
             一発 = source.一発;
         }
 
-        public readonly Rounds.Player Deserialize(Mahjongs.Round round)
+        public readonly Rounds.Player Deserialize(ThreeMahjong.Round round)
         {
             return Rounds.Player.FromSerializable(this, round);
         }
@@ -228,15 +228,15 @@ namespace TSKT.Mahjongs.Serializables
         public int[] tiles;
         public Meld[] melds;
 
-        public Hand(Mahjongs.Hand source)
+        public Hand(ThreeMahjong.Hand source)
         {
             tiles = source.tiles.Select(_ => _.index).ToArray();
             melds = source.melds.Select(_ => _.ToSerializable()).ToArray();
         }
 
-        public readonly Mahjongs.Hand Deserialize(Rounds.Player owner)
+        public readonly ThreeMahjong.Hand Deserialize(Rounds.Player owner)
         {
-            return Mahjongs.Hand.FromSerializable(this, owner);
+            return ThreeMahjong.Hand.FromSerializable(this, owner);
         }
     }
 
@@ -251,16 +251,16 @@ namespace TSKT.Mahjongs.Serializables
         }
         public Pair[] tileFroms;
 
-        public Meld(Mahjongs.Meld source)
+        public Meld(ThreeMahjong.Meld source)
         {
             tileFroms = source.tileFroms
                 .Select(_ => new Pair() { tile = _.tile.index, fromPlayerIndex = _.fromPlayerIndex })
                 .ToArray();
         }
 
-        public Mahjongs.Meld Deserialize(Mahjongs.WallTile wallTile)
+        public ThreeMahjong.Meld Deserialize(ThreeMahjong.WallTile wallTile)
         {
-            return Mahjongs.Meld.FromSerializable(this, wallTile);
+            return ThreeMahjong.Meld.FromSerializable(this, wallTile);
         }
     }
 
@@ -271,16 +271,16 @@ namespace TSKT.Mahjongs.Serializables
         public Tile[] allTiles;
         public uint randomSeed;
 
-        public WallTile(Mahjongs.WallTile source)
+        public WallTile(ThreeMahjong.WallTile source)
         {
             allTiles = source.allTiles.Select(_ => _.ToSerializable()).ToArray();
             tiles = source.tiles.Select(_ => _.index).ToArray();
             randomSeed = source.randomSeed;
         }
 
-        public readonly Mahjongs.WallTile Deserialize()
+        public readonly ThreeMahjong.WallTile Deserialize()
         {
-            return Mahjongs.WallTile.FromSerializable(this);
+            return ThreeMahjong.WallTile.FromSerializable(this);
         }
     }
 
@@ -292,7 +292,7 @@ namespace TSKT.Mahjongs.Serializables
         public int[] uraDoraIndicatorTiles;
         public int drawnCount;
 
-        public DeadWallTile(Mahjongs.DeadWallTile source)
+        public DeadWallTile(ThreeMahjong.DeadWallTile source)
         {
             doraIndicatorTiles = source.doraIndicatorTiles.Select(_ => _.index).ToArray();
             drawnCount = source.DrawnCount;
@@ -300,9 +300,9 @@ namespace TSKT.Mahjongs.Serializables
             uraDoraIndicatorTiles = source.uraDoraIndicatorTiles.Select(_ => _.index).ToArray();
         }
 
-        public readonly Mahjongs.DeadWallTile Deserialize(Mahjongs.WallTile wallTile)
+        public readonly ThreeMahjong.DeadWallTile Deserialize(ThreeMahjong.WallTile wallTile)
         {
-            return Mahjongs.DeadWallTile.FromSerializable(this, wallTile);
+            return ThreeMahjong.DeadWallTile.FromSerializable(this, wallTile);
         }
     }
 }

@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using TSKT.Mahjongs.Rounds;
-using TSKT.Mahjongs.Hands;
+using ThreeMahjong.Rounds;
+using ThreeMahjong.Hands;
 
-namespace TSKT.Mahjongs
+namespace ThreeMahjong
 {
     public class Hand
     {

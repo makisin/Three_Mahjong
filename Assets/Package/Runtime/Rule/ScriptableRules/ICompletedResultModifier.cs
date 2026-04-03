@@ -1,10 +1,10 @@
 #nullable enable
 using System.Collections;
 using System.Collections.Generic;
-using TSKT.Mahjongs.Rounds;
+using ThreeMahjong.Rounds;
 using UnityEngine;
 
-namespace TSKT.Mahjongs.ScriptableRules
+namespace ThreeMahjong.ScriptableRules
 {
     public interface ICompletedResultModifier
     {

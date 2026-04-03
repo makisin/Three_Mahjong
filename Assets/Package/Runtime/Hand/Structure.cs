@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 #nullable enable
 
-namespace TSKT.Mahjongs.Hands
+namespace ThreeMahjong.Hands
 {
     public readonly struct Structure
     {

@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using TSKT.Mahjongs.Rounds;
-using TSKT.Mahjongs.Commands;
+using ThreeMahjong.Rounds;
+using ThreeMahjong.Commands;
 
-namespace TSKT.Mahjongs
+namespace ThreeMahjong
 {
     /// <summary>
     /// 暗槓宣言時。国士無双ロンができる

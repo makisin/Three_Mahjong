@@ -2,7 +2,7 @@
 using System.Linq;
 #nullable enable
 
-namespace TSKT.Mahjongs
+namespace ThreeMahjong
 {
     public class Game
     {

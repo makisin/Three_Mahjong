@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TSKT.Mahjongs.Rules;
+using ThreeMahjong.Rules;
 #nullable enable
 
-namespace TSKT.Mahjongs
+namespace ThreeMahjong
 {
     [System.Serializable]
     public class RuleSetting

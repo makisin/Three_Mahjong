@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 #nullable enable
 
-namespace TSKT.Mahjongs.Serializables
+namespace ThreeMahjong.Serializables
 {
     [System.Serializable]
     public struct AfterDiscard
@@ -12,15 +12,15 @@ namespace TSKT.Mahjongs.Serializables
 
         public PlayerIndex discardPlayerIndex;
 
-        public AfterDiscard(Mahjongs.AfterDiscard source)
+        public AfterDiscard(ThreeMahjong.AfterDiscard source)
         {
             round = source.Round.ToSerializable();
 
             discardPlayerIndex = source.DiscardPlayerIndex;
         }
-        readonly public Mahjongs.AfterDiscard Deserialzie()
+        readonly public ThreeMahjong.AfterDiscard Deserialzie()
         {
-            return Mahjongs.AfterDiscard.FromSerializable(this);
+            return ThreeMahjong.AfterDiscard.FromSerializable(this);
         }
     }
 
@@ -34,7 +34,7 @@ namespace TSKT.Mahjongs.Serializables
         public bool openDoraAfterDiscard;
         public bool 嶺上;
 
-        public AfterDraw(Mahjongs.AfterDraw source)
+        public AfterDraw(ThreeMahjong.AfterDraw source)
         {
             round = source.Round.ToSerializable();
 
@@ -43,9 +43,9 @@ namespace TSKT.Mahjongs.Serializables
             openDoraAfterDiscard = source.openDoraAfterDiscard;
             嶺上 = source.嶺上;
         }
-        readonly public Mahjongs.AfterDraw Deserialzie()
+        readonly public ThreeMahjong.AfterDraw Deserialzie()
         {
-            return Mahjongs.AfterDraw.FromSerializable(this);
+            return ThreeMahjong.AfterDraw.FromSerializable(this);
         }
     }
 
@@ -57,16 +57,16 @@ namespace TSKT.Mahjongs.Serializables
         public PlayerIndex declarePlayerIndex;
         public int tile;
         
-        public BeforeAddedOpenQuad(Mahjongs.BeforeAddedOpenQuad source)
+        public BeforeAddedOpenQuad(ThreeMahjong.BeforeAddedOpenQuad source)
         {
             round = source.Round.ToSerializable();
 
             declarePlayerIndex = source.DeclarePlayerIndex;
             tile = source.tile.index;
         }
-        readonly public Mahjongs.BeforeAddedOpenQuad Deserialzie()
+        readonly public ThreeMahjong.BeforeAddedOpenQuad Deserialzie()
         {
-            return Mahjongs.BeforeAddedOpenQuad.FromSerializable(this);
+            return ThreeMahjong.BeforeAddedOpenQuad.FromSerializable(this);
         }
     }
 
@@ -78,16 +78,16 @@ namespace TSKT.Mahjongs.Serializables
         public PlayerIndex declarePlayerIndex;
         public TileType tile;
 
-        public BeforeClosedQuad(Mahjongs.BeforeClosedQuad source)
+        public BeforeClosedQuad(ThreeMahjong.BeforeClosedQuad source)
         {
             round = source.Round.ToSerializable();
 
             declarePlayerIndex = source.DeclarePlayerIndex;
             tile = source.tile;
         }
-        readonly public Mahjongs.BeforeClosedQuad Deserialzie()
+        readonly public ThreeMahjong.BeforeClosedQuad Deserialzie()
         {
-            return Mahjongs.BeforeClosedQuad.FromSerializable(this);
+            return ThreeMahjong.BeforeClosedQuad.FromSerializable(this);
         }
     }
 }

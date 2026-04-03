@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-namespace TSKT.Mahjongs.Rounds
+namespace ThreeMahjong.Rounds
 {
     public readonly struct CompletedHand
     {

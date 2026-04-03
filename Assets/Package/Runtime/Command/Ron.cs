@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using TSKT.Mahjongs.Rounds;
+using ThreeMahjong.Rounds;
 
-namespace TSKT.Mahjongs.Commands
+namespace ThreeMahjong.Commands
 {
     public readonly struct Ron : ICommand<IController>
     {

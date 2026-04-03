@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NUnit.Framework;
-using TSKT.Mahjongs;
-using TSKT.Mahjongs.Rules;
+using ThreeMahjong;
+using ThreeMahjong.Rules;
 using System.Linq;
 #nullable enable
 
-namespace TSKT.Tests.Mahjongs
+namespace ThreeMahjong.Test
 {
     public class Serialzie
     {
@@ -41,7 +41,7 @@ namespace TSKT.Tests.Mahjongs
             var json0_0 = session0_0.ToJson(prettyPrint: true);
             Debug.Log(json0_0);
 
-            var controller0_1 = TSKT.Mahjongs.Serializables.Session.FromJson(json0_0);
+            var controller0_1 = ThreeMahjong.Serializables.Session.FromJson(json0_0);
             Assert.AreEqual(controller0_1.GetType(), controller0_0.GetType());
 
             var json0_1 = controller0_1.SerializeSession().ToJson(prettyPrint: true);
@@ -51,7 +51,7 @@ namespace TSKT.Tests.Mahjongs
             var controller1_0 = discards[0].Execute().nextController;
             var session1_0 = controller1_0.SerializeSession();
             var json1_0 = session1_0.ToJson();
-            var controller1_1 = TSKT.Mahjongs.Serializables.Session.FromJson(json1_0);
+            var controller1_1 = ThreeMahjong.Serializables.Session.FromJson(json1_0);
             Assert.AreEqual(controller1_0.GetType(), controller1_1.GetType());
             var session1_2 = controller1_1.SerializeSession();
             var json1_1 = session1_2.ToJson();
@@ -87,7 +87,7 @@ namespace TSKT.Tests.Mahjongs
         {
             const uint seed = 123456789;
             var controller0 = Game.Create(0, new RuleSetting(), seed);
-            var controller1 = TSKT.Mahjongs.Serializables.Session.FromJson(controller0.SerializeSession().ToJson());
+            var controller1 = ThreeMahjong.Serializables.Session.FromJson(controller0.SerializeSession().ToJson());
 
             var advancedController0 = AdvanceToNextRoundByFirstChoices(controller0);
             var advancedController1 = AdvanceToNextRoundByFirstChoices(controller1);
@@ -126,7 +126,7 @@ namespace TSKT.Tests.Mahjongs
                 if (serialize)
                 {
                     var jsonString = controller.SerializeSession().ToJson();
-                    controller = TSKT.Mahjongs.Serializables.Session.FromJson(jsonString);
+                    controller = ThreeMahjong.Serializables.Session.FromJson(jsonString);
                     var jsonString2 = controller.SerializeSession().ToJson();
                     Assert.AreEqual(jsonString, jsonString2);
                 }
@@ -159,7 +159,7 @@ namespace TSKT.Tests.Mahjongs
             var controller0 = Game.Create(0, rule);
 
             var json = controller0.SerializeSession().ToJson();
-            var controller1 = TSKT.Mahjongs.Serializables.Session.FromJson(json);
+            var controller1 = ThreeMahjong.Serializables.Session.FromJson(json);
             Assert.AreEqual(JsonUtility.ToJson(rule.end), JsonUtility.ToJson(controller1.Round.game.rule.end));
             Assert.AreEqual(JsonUtility.ToJson(rule.payment), JsonUtility.ToJson(controller1.Round.game.rule.payment));
         }
