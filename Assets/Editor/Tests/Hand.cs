@@ -106,5 +106,91 @@ namespace ThreeMahjong.Test
             }
             Assert.AreEqual(expecteds.Length, yakus.Count);
         }
+
+        [Test]
+        public void 七対子形でも二盃口が優先される()
+        {
+            var round = Game.Create(0, new RuleSetting()).Round;
+            var hand = round.players[0].hand;
+            var tiles = new[]
+            {
+                TileType.S8, TileType.S8,
+                TileType.P2, TileType.P2,
+                TileType.P3, TileType.P3,
+                TileType.P4, TileType.P4,
+                TileType.M5, TileType.M5,
+                TileType.M6, TileType.M6,
+                TileType.M7, TileType.M7,
+            };
+
+            hand.tiles.Clear();
+            hand.tiles.AddRange(tiles.Select(_ => new Tile(0, _, red: false)));
+            var yakus = hand.Solve().ChoiceCompletedHand(round.players[0], TileType.S8, null, false, false, false, false, false, false, false).Yakus;
+
+            Assert.IsTrue(yakus.ContainsKey(役.二盃口), string.Join(", ", yakus.Keys.Select(_ => _.ToString())));
+            Assert.IsFalse(yakus.ContainsKey(役.七対子), string.Join(", ", yakus.Keys.Select(_ => _.ToString())));
+
+            var expecteds = new[] { 役.門前清自摸和, 役.タンヤオ, 役.二盃口 };
+            foreach (var it in expecteds)
+            {
+                Assert.IsTrue(yakus.ContainsKey(it), string.Join(", ", yakus.Keys.Select(_ => _.ToString())));
+            }
+            Assert.AreEqual(expecteds.Length, yakus.Count);
+        }
+
+        [Test]
+        public void 基本点が同じ場合は翻数が高い手を優先する()
+        {
+            var round = Game.Create(0, new RuleSetting()).Round;
+            var hand = round.players[0].hand;
+            var tiles = new[]
+            {
+                new Tile(0, TileType.P3, red: false),
+                new Tile(0, TileType.P3, red: false),
+                new Tile(0, TileType.P4, red: false),
+                new Tile(0, TileType.P4, red: false),
+                new Tile(0, TileType.P5, red: true),
+                new Tile(0, TileType.P5, red: false),
+                new Tile(0, TileType.S3, red: false),
+                new Tile(0, TileType.S3, red: false),
+                new Tile(0, TileType.S4, red: false),
+                new Tile(0, TileType.S4, red: false),
+                new Tile(0, TileType.S5, red: false),
+                new Tile(0, TileType.S5, red: false),
+                new Tile(0, TileType.S7, red: false),
+                new Tile(0, TileType.S7, red: false),
+            };
+
+            hand.tiles.Clear();
+            hand.tiles.AddRange(tiles);
+            var completed = hand.Solve().ChoiceCompletedHand(
+                newTileInHand: TileType.P5,
+                ownWind: TileType.東,
+                roundWind: TileType.東,
+                ronTarget: round.players[1],
+                riichi: false,
+                doubleRiichi: false,
+                openRiichi: false,
+                一発: false,
+                嶺上: false,
+                海底: false,
+                河底: false,
+                天和: false,
+                地和: false,
+                人和: false,
+                doraTiles: new TileType[0],
+                uraDoraTiles: new TileType[0],
+                槍槓: false,
+                nukiDoraCount: 4,
+                handCap: round.game.rule.handCap);
+            var yakus = completed.Yakus;
+
+            Assert.IsTrue(yakus.ContainsKey(役.二盃口), string.Join(", ", yakus.Keys.Select(_ => _.ToString())));
+            Assert.IsTrue(yakus.ContainsKey(役.平和), string.Join(", ", yakus.Keys.Select(_ => _.ToString())));
+            Assert.IsFalse(yakus.ContainsKey(役.七対子), string.Join(", ", yakus.Keys.Select(_ => _.ToString())));
+            Assert.AreEqual(10, completed.Han);
+            Assert.AreEqual(30, completed.Fu);
+            Assert.AreEqual(ScoreType.倍満, completed.基本点(round.game.rule.handCap).type);
+        }
     }
 }

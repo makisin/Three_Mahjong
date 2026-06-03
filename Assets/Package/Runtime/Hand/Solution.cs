@@ -68,7 +68,7 @@ namespace ThreeMahjong.Hands
             int nukiDoraCount,
             Rules.HandCap handCap)
         {
-            var result = (score: int.MinValue, completed: default(CompletedHand));
+            var result = (score: int.MinValue, yakuman: int.MinValue, han: int.MinValue, fu: int.MinValue, completed: default(CompletedHand));
 
             foreach (var it in structures)
             {
@@ -88,13 +88,34 @@ namespace ThreeMahjong.Hands
                     doraTiles: doraTiles,
                     uraDoraTiles: uraDoraTiles,
                     nukiDoraCount: nukiDoraCount);
-                if (result.score < item.基本点(handCap).score)
+                var itemScore = item.基本点(handCap).score;
+                var itemYakuman = item.役満.Values.Sum();
+                var itemHan = item.Han;
+                var itemFu = item.Fu;
+                if (IsBetter(itemScore, itemYakuman, itemHan, itemFu, result.score, result.yakuman, result.han, result.fu))
                 {
-                    result = (item.基本点(handCap).score, item);
+                    result = (itemScore, itemYakuman, itemHan, itemFu, item);
                 }
             }
 
             return result.completed;
+        }
+
+        static bool IsBetter(int score, int yakuman, int han, int fu, int currentScore, int currentYakuman, int currentHan, int currentFu)
+        {
+            if (score != currentScore)
+            {
+                return score > currentScore;
+            }
+            if (yakuman != currentYakuman)
+            {
+                return yakuman > currentYakuman;
+            }
+            if (han != currentHan)
+            {
+                return han > currentHan;
+            }
+            return fu > currentFu;
         }
     }
 }
