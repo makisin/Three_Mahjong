@@ -512,7 +512,9 @@ namespace ThreeMahjong.Rounds
                     return 0;
                 }
                 var allUsedTiles = AllUsedTiles.ToArray();
-                return doraTiles.Sum(_ => allUsedTiles.Count(x => x == _));
+                // 抜いた北は手牌に含まれないため、北がドラの場合は抜きドラ分も加算する
+                return doraTiles.Sum(_ => allUsedTiles.Count(x => x == _))
+                    + doraTiles.Count(_ => _ == TileType.北) * nukiDoraCount;
             }
         }
 
@@ -525,7 +527,9 @@ namespace ThreeMahjong.Rounds
                     return 0;
                 }
                 var allUsedTiles = AllUsedTiles.ToArray();
-                return uraDoraTiles.Sum(_ => allUsedTiles.Count(x => x == _));
+                // 抜いた北は手牌に含まれないため、北が裏ドラの場合は抜きドラ分も加算する
+                return uraDoraTiles.Sum(_ => allUsedTiles.Count(x => x == _))
+                    + uraDoraTiles.Count(_ => _ == TileType.北) * nukiDoraCount;
             }
         }
 

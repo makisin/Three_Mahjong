@@ -209,6 +209,58 @@ namespace ThreeMahjong.Test
             Assert.AreEqual(expected, result.ronPenalty);
             Assert.AreEqual(0, r.roundResult.scoreDiffs!.Values.Sum());
         }
+
+        [Test]
+        // ドラが北: 抜きドラ3枚がドラとしても数えられる
+        [TestCase(3, 0, new[] { TileType.北 }, new TileType[0], 3, false)]
+        // 裏ドラが北: リーチ時は抜きドラ2枚が裏ドラとしても数えられる
+        [TestCase(0, 2, new TileType[0], new[] { TileType.北 }, 2, true)]
+        // 裏ドラが北でもリーチしていなければ裏ドラは乗らない
+        [TestCase(0, 0, new TileType[0], new[] { TileType.北 }, 2, false)]
+        // ドラが北以外なら抜きドラはドラに影響しない
+        [TestCase(1, 0, new[] { TileType.M1 }, new TileType[0], 3, false)]
+        public void 抜きドラとドラの重複(int expectedDora, int expectedUraDora,
+            TileType[] doraTiles, TileType[] uraDoraTiles, int nukiDoraCount, bool riichi)
+        {
+            var tiles = new[]
+            {
+                TileType.M1, TileType.M2, TileType.M3,
+                TileType.P1, TileType.P2, TileType.P3,
+                TileType.S1, TileType.S2, TileType.S3,
+                TileType.S7, TileType.S8, TileType.S9,
+                TileType.白, TileType.白,
+            };
+            var round = Game.Create(0, new RuleSetting()).ResetRound(tiles).Round;
+
+            var hand = round.players[0].hand;
+            hand.tiles.Clear();
+            hand.tiles.AddRange(tiles.Select(_ => new Tile(0, _, red: false)));
+            var solution = hand.Solve();
+            Assert.AreEqual(-1, solution.向聴数);
+
+            var completed = solution.ChoiceCompletedHand(newTileInHand: tiles[0], ownWind: TileType.東, roundWind: TileType.東,
+                ronTarget: null,
+                riichi: riichi,
+                doubleRiichi: false,
+                openRiichi: false,
+                一発: false,
+                嶺上: false,
+                海底: false,
+                河底: false,
+                天和: false,
+                地和: false,
+                人和: false,
+                doraTiles: doraTiles,
+                uraDoraTiles: uraDoraTiles,
+                槍槓: false,
+                nukiDoraCount: nukiDoraCount,
+                handCap: round.game.rule.handCap);
+
+            Assert.AreEqual(expectedDora, completed.Dora);
+            Assert.AreEqual(expectedUraDora, completed.UraDora);
+            Assert.AreEqual(nukiDoraCount, completed.NukiDora);
+        }
+
         [Test]
         public void HandWithMeld()
         {
