@@ -119,10 +119,6 @@ namespace ThreeMahjong
                         return true;
                     }
                 }
-                if (四風子連打)
-                {
-                    return true;
-                }
                 return false;
             }
         }
@@ -138,36 +134,6 @@ namespace ThreeMahjong
                     return false;
                 }
                 return Round.CountKan == 4;
-            }
-        }
-
-        bool 四風子連打
-        {
-            get
-            {
-                Tile? tile = null;
-                foreach (var it in Round.players)
-                {
-                    if (it.hand.melds.Count > 0)
-                    {
-                        return false;
-                    }
-                    if (it.discardedTiles.Count != 1)
-                    {
-                        return false;
-                    }
-                    var discardedTile = it.discardedTiles[0];
-                    if (!discardedTile.type.風牌())
-                    {
-                        return false;
-                    }
-                    if (tile != null && tile.type != discardedTile.type)
-                    {
-                        return false;
-                    }
-                    tile = discardedTile;
-                }
-                return true;
             }
         }
 
